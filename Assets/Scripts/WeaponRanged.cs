@@ -9,9 +9,11 @@ public class WeaponRanged : Weapon {
     public float cooldown = 0.25F;
     public float characterRecoil = 0.1F;
     public float spread = 0.1F;
+    public int numProjectiles = 1;
 
     float recoverSpeed = 2.0F;
     float cdTimer = 0;
+    
 
     [SerializeField]
     Character _ch = null;
@@ -43,14 +45,17 @@ public class WeaponRanged : Weapon {
 
     void Fire()
     {
-        GameObject go = (GameObject)Instantiate(bullet,nozzle.position,Quaternion.identity,null);
-        Bullet b = go.GetComponent<Bullet>();
-        if (b != null) b.SetDirection(transform.right + Random.Range(-spread, spread) * transform.up);
+        for (int i = 0; i < numProjectiles; i++)
+        {
+            GameObject go = (GameObject)Instantiate(bullet,nozzle.position,Quaternion.identity,null);
+            Bullet b = go.GetComponent<Bullet>();
+            if (b != null) b.SetDirection(transform.right + Random.Range(-spread, spread) * transform.up);
 
-        transform.localPosition = -recoil * this.transform.right;
-        if (_ch != null) _ch.AddVelocity(-characterRecoil * this.transform.right);
+            transform.localPosition = -recoil * this.transform.right;
+            if (_ch != null) _ch.AddVelocity(-characterRecoil * this.transform.right);
 
-        cdTimer = cooldown;
-        UnityEngine.Camera.main.GetComponent<CameraFollow>().Shake(transform.right);
+            cdTimer = cooldown;
+            UnityEngine.Camera.main.GetComponent<CameraFollow>().Shake(transform.right);
+        }
     }
 }

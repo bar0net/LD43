@@ -27,6 +27,9 @@ public class Player : Character {
 	void Start () {
         base.Start();
 
+        Color c = Random.ColorHSV();
+        transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().color = c;
+
         _m = FindObjectOfType<Manager>();
         GameObject w = GameObject.Instantiate(_m.RandomWeapon(), transform.position, Quaternion.identity, transform.GetChild(0));
 
@@ -135,8 +138,17 @@ public class Player : Character {
 
         if (collision.tag == "ThePit")
         {
+            gameObject.tag = "None";
             Enemy[] es = FindObjectsOfType<Enemy>();
-            foreach (Enemy e in es) e.Die();
+            foreach (Enemy e in es)
+            {
+                if (e.enabled)
+                {
+                    e.Die();
+                    Destroy(e);
+                }
+                else Destroy(e.gameObject);
+            }
 
             GetComponentInChildren<Weapon>().enabled = false;
             _m.Sacrifice(exp, gold);
@@ -147,11 +159,16 @@ public class Player : Character {
 
     public override void Die()
     {
+        gameObject.tag = "None";
         Enemy[] es = FindObjectsOfType<Enemy>();
         foreach (Enemy e in es)
         {
-            e.Die();
-            Destroy(e);
+            if (e.enabled)
+            {
+                e.Die();
+                Destroy(e);
+            }
+            else Destroy(e.gameObject);
         }
         _m.GameOver();
 

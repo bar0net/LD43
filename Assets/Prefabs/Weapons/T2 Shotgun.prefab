@@ -116,6 +116,7 @@ MonoBehaviour:
   cooldown: 0.5
   characterRecoil: 0.3
   spread: 0.45
+  numProjectiles: 4
   _ch: {fileID: 0}
 --- !u!212 &212304620736280512
 SpriteRenderer:

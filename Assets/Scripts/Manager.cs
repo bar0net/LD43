@@ -28,9 +28,13 @@ public class Manager : MonoBehaviour {
 
     GameObject active;
 
-    private void Start()
+    private void Awake()
     {
-        activeWeapons = (GameObject[])T1Weapons.Clone();
+        activeWeapons = new GameObject[T1Weapons.Length];
+        for (int i = 0; i < T1Weapons.Length; i++)
+        {
+            activeWeapons[i] = T1Weapons[i];
+        }
     }
 
     public void UpdateLifeUI(int hp, int max_hp)
@@ -65,10 +69,11 @@ public class Manager : MonoBehaviour {
 
     public void RaisePanelWeapons(bool upgrade)
     {
-       // GameObject[] gos = GameObject.FindGameObjectsWithTag("Enemy");
+        // GameObject[] gos = GameObject.FindGameObjectsWithTag("Enemy");
         //foreach (GameObject go in gos) Destroy(go);
 
         // Pause Spawners
+        FindObjectOfType<Spawner>().enabled = false;
 
         panelImproveWeapons.SetActive(true);
         panelWeapons.Fill(activeWeapons);
@@ -85,6 +90,8 @@ public class Manager : MonoBehaviour {
 
         GameObject go = GameObject.Instantiate(player);
         UnityEngine.Camera.main.GetComponent<CameraFollow>().target = go.transform;
+
+        FindObjectOfType<Spawner>().enabled = true;
     }
 
     public void Sacrifice(int exp, int gold)

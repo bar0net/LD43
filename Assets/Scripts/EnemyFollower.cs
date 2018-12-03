@@ -10,8 +10,13 @@ public class EnemyFollower : Enemy {
     {
         base.Start();
 
-        target = GameObject.FindGameObjectWithTag("Player").transform;
         _anim = GetComponent<Animator>();
+    }
+
+    private void OnEnable()
+    {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+        
     }
 
     // Update is called once per frame

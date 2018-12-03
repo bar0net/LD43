@@ -17,7 +17,7 @@ public class EnemyRoamer : Enemy {
     float timer;
 
 	// Use this for initialization
-	void Start () {
+	void OnEnable () {
         target = new Vector2(Random.Range(xRange.x, xRange.y), Random.Range(yRange.x, yRange.y));
 	}
 

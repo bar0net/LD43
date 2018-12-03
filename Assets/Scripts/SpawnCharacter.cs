@@ -29,7 +29,8 @@ public class SpawnCharacter : MonoBehaviour {
 
         if (transform.position.y <= yTarget)
         {
-            GetComponent<Character>().enabled = true;
+            Character ch = GetComponent<Character>();
+            if (ch != null) ch.enabled = true;
             SpriteRenderer[] srs = GetComponentsInChildren<SpriteRenderer>();
             foreach (SpriteRenderer sr in srs)
                 sr.color = new Color(sr.color.r, sr.color.b, sr.color.g, 1.0F);
